@@ -44,6 +44,9 @@ class Board extends Component {
 	handleClick(i) {
 		const { board, xIsNext } = this.state;
 		const boardCopy = board.slice();
+		if (this.calculateWinner(boardCopy) || boardCopy[i] ) {
+			return;
+		}
 		boardCopy[i] = xIsNext ? 'X' : 'O';
 		this.setState({
 			board: boardCopy,
