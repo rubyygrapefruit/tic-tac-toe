@@ -23,7 +23,7 @@ class Game extends Component {
 		const { hasGameStarted } = this.state;
     return (
 			<div>
-				<button onClick={this.handleNewGame}>New Game</button>
+				<button className="newGame-button" onClick={this.handleNewGame}>New Game</button>
 				{ hasGameStarted && <Board />}
 			</div>
 		)
