@@ -53,6 +53,10 @@ body {
 	margin-bottom: 20px;
 }
 
+.newGame-button:focus {
+	outline: none;
+}
+
 .square:hover {
 	background-color: #e6e2da;
 	cursor: pointer;
