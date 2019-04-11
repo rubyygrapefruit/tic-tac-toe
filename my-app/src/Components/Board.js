@@ -9,10 +9,12 @@ class Board extends Component {
 			board: Array(9).fill(null),
 			value: null,
 			xIsNext: true,
+			status: 'First Player is X',
 		}
 		this.createNewBoard = this.createNewBoard.bind(this);
 		this.renderSquare = this.renderSquare.bind(this);
 		this.handleClick = this.handleClick.bind(this);
+		this.calculateWinner = this.calculateWinner.bind(this);
 	}
 
 	createNewBoard(boardSize) {
@@ -46,13 +48,49 @@ class Board extends Component {
 		this.setState({
 			board: boardCopy,
 			xIsNext: !xIsNext,
+		},()=> this.checkStatus());
+	}
+
+	calculateWinner(board) {
+		const lines = [
+			[0, 1, 2],
+			[3, 4, 5],
+			[6, 7, 8],
+			[0, 3, 6],
+			[1, 4, 7],
+			[2, 5, 8],
+			[0, 4, 8],
+			[2, 4, 6],
+		];
+		for (let i = 0; i < lines.length; i++) {
+			const [a, b, c] = lines[i];
+			if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+				return board[a];
+			}
+		}
+		return null;
+	}
+
+	checkStatus(){
+		const { board, xIsNext } = this.state;
+		let updatedState = {};
+		const winner = this.calculateWinner(board);
+		if (winner) {
+			updatedState={
+				status:`Winner is ${winner}`,
+			}
+		} else {
+			updatedState={
+				status: `Next player is ${xIsNext ? 'X': 'O'}`,
+			}
+		}
+		this.setState({
+			...updatedState,
 		})
 	}
 
-
   render() {
-		const { xIsNext } = this.state;
- 		const status = `Next player is ${xIsNext ? 'X': 'O'}`
+		const { status } = this.state;
     return (
 			<div>
 				{status}
