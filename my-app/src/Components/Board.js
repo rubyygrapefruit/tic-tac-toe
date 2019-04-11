@@ -102,7 +102,7 @@ class Board extends Component {
 		const { status } = this.state;
     return (
 			<div>
-				{status}
+				<div className="status">{status}</div>
       	<div>{this.createNewBoard(3)}</div>
 			</div>
     );
