@@ -10,6 +10,7 @@ class Board extends Component {
 			value: null,
 			xIsNext: true,
 			status: 'First Player is X',
+			timesClicked: 0,
 		}
 		this.createNewBoard = this.createNewBoard.bind(this);
 		this.renderSquare = this.renderSquare.bind(this);
@@ -42,7 +43,7 @@ class Board extends Component {
 	}
 
 	handleClick(i) {
-		const { board, xIsNext } = this.state;
+		const { board, xIsNext, timesClicked } = this.state;
 		const boardCopy = board.slice();
 		if (this.calculateWinner(boardCopy) || boardCopy[i] ) {
 			return;
@@ -51,6 +52,7 @@ class Board extends Component {
 		this.setState({
 			board: boardCopy,
 			xIsNext: !xIsNext,
+			timesClicked: timesClicked + 1,
 		},()=> this.checkStatus());
 	}
 
@@ -75,12 +77,16 @@ class Board extends Component {
 	}
 
 	checkStatus(){
-		const { board, xIsNext } = this.state;
+		const { board, xIsNext, timesClicked } = this.state;
 		let updatedState = {};
 		const winner = this.calculateWinner(board);
 		if (winner) {
 			updatedState={
 				status:`Winner is ${winner}`,
+			}
+		} else if ( timesClicked === 9) {
+			updatedState={
+				status: 'This is a draw',
 			}
 		} else {
 			updatedState={
